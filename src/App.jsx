@@ -136,7 +136,7 @@ ${website.html}
             <Wand2 size={22} />
             <span>SiteForge <em>AI</em></span>
           </div>
-          <div className="header-badge">Powered by Claude</div>
+          <div className="header-badge">Powered by Groq</div>
         </div>
       </header>
 
@@ -257,7 +257,7 @@ ${website.html}
             <div className="loading-state">
               <div className="loading-orb" />
               <h2>Crafting your website…</h2>
-              <p>Claude is generating layout, content, and styles</p>
+              <p>Groq is generating layout, content, and styles</p>
               <div className="loading-steps">
                 {["Processing prompt", "Designing layout", "Writing content", "Styling components"].map((step, i) => (
                   <div key={i} className="loading-step" style={{ animationDelay: `${i * 0.4}s` }}>
