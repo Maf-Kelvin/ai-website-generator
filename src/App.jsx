@@ -138,7 +138,7 @@ ${website.html}
             <Wand2 size={22} />
             <span>SiteForge <em>AI</em></span>
           </div>
-          <div className="header-badge">Powered by Claude</div>
+          <div className="header-badge">Powered by Groq</div>
         </div>
       </header>
 
