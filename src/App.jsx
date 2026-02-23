@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import "./App.css";
 
+const API_BASE = "https://ai-website-generator-6ap6.onrender.com";
+
 const STYLE_OPTIONS = [
   { id: "modern", label: "Modern & Clean" },
   { id: "bold", label: "Bold & Vibrant" },
@@ -55,7 +57,7 @@ export default function App() {
     setWebsite(null);
 
     try {
-      const res = await fetch("/api/generate", {
+      const res = await fetch(`${API_BASE}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, style, colorScheme }),
@@ -80,7 +82,7 @@ export default function App() {
     setError(null);
 
     try {
-      const res = await fetch("/api/refine", {
+      const res = await fetch(`${API_BASE}/api/refine`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -136,7 +138,7 @@ ${website.html}
             <Wand2 size={22} />
             <span>SiteForge <em>AI</em></span>
           </div>
-          <div className="header-badge">Powered by Groq</div>
+          <div className="header-badge">Powered by Claude</div>
         </div>
       </header>
 
@@ -257,7 +259,7 @@ ${website.html}
             <div className="loading-state">
               <div className="loading-orb" />
               <h2>Crafting your website…</h2>
-              <p>Groq is generating layout, content, and styles</p>
+              <p>Claude is generating layout, content, and styles</p>
               <div className="loading-steps">
                 {["Processing prompt", "Designing layout", "Writing content", "Styling components"].map((step, i) => (
                   <div key={i} className="loading-step" style={{ animationDelay: `${i * 0.4}s` }}>
