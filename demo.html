@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SiteForge AI – Free Website Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0a0f;--bg-2:#111118;--bg-3:#18181f;--bg-4:#202028;--border:#2a2a35;--accent:#f5a623;--accent-dim:rgba(245,166,35,.1);--text:#f0f0f8;--text-dim:#8888a8;--text-muted:#55556a;--error:#f87171;--success:#4ade80;--radius:10px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+.hdr{height:52px;border-bottom:1px solid var(--border);background:rgba(10,10,15,.96);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800}
+.logo-icon{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#0a0a0f}
+.badge{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--success);background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);padding:4px 12px;border-radius:999px}
+.setup-banner{background:linear-gradient(135deg,rgba(245,166,35,.1),rgba(255,107,53,.06));border-bottom:1px solid rgba(245,166,35,.2);padding:10px 20px;display:flex;align-items:center;gap:10px;font-size:.8rem;flex-wrap:wrap}
+.setup-banner.hidden{display:none}
+.setup-banner strong{color:var(--accent)}
+.setup-banner a{color:var(--accent)}
+.api-row{display:flex;align-items:center;gap:7px;margin-left:auto}
+.api-inp{background:var(--bg-3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'DM Mono',monospace;font-size:.74rem;padding:6px 10px;outline:none;width:240px}
+.api-inp:focus{border-color:var(--accent)}
+.api-save{background:var(--accent);border:none;border-radius:7px;color:#0a0a0f;font-weight:700;font-size:.74rem;padding:6px 14px;cursor:pointer;white-space:nowrap}
+.main{display:grid;grid-template-columns:330px 1fr;flex:1;overflow:hidden}
+.left{border-right:1px solid var(--border);background:var(--bg-2);padding:18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+.right{background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+.lbl{font-family:'DM Mono',monospace;font-size:.67rem;font-weight:500;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+textarea{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;line-height:1.6;padding:11px 12px;resize:none;width:100%;outline:none;transition:border-color .2s}
+textarea:focus{border-color:var(--accent)}
+textarea::placeholder{color:var(--text-muted)}
+.ex-chips{display:flex;flex-direction:column;gap:4px;margin-top:5px}
+.ex-chip{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-size:.72rem;padding:5px 9px;text-align:left;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.ex-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.opt-btn{display:flex;align-items:center;gap:5px;background:var(--bg-3);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-size:.74rem;padding:7px 8px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.opt-btn.on{border-color:var(--accent);background:var(--accent-dim);color:var(--accent);font-weight:500}
+.col-grid{display:flex;flex-direction:column;gap:4px}
+.col-btn{display:flex;align-items:center;gap:8px;background:var(--bg-3);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-size:.74rem;padding:6px 9px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.col-btn.on{border-color:var(--accent);background:var(--accent-dim);color:var(--text)}
+.col-btn .chk{margin-left:auto;color:var(--accent)}
+.swatch{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,.15);flex-shrink:0}
+.gen-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);border:none;border-radius:var(--radius);color:#0a0a0f;font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;padding:13px;cursor:pointer;transition:all .2s;width:100%}
+.gen-btn:hover:not(:disabled){background:#fbb93e;transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,166,35,.3)}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ref-sec{border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:7px}
+.ref-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--bg-4);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:9px;cursor:pointer;transition:all .2s;width:100%}
+.ref-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.ref-btn:disabled{opacity:.5;cursor:not-allowed}
+.err{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:9px;color:var(--error);font-size:.76rem;padding:8px 12px}
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;text-align:center;padding:40px}
+.state-icon{width:70px;height:70px;background:var(--accent-dim);border:1px solid rgba(245,166,35,.2);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:8px}
+.state h2{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700}
+.state p{color:var(--text-dim);font-size:.86rem;max-width:300px;line-height:1.6}
+.orb{width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--accent),#ff6b35,var(--accent));animation:spin 1.5s linear infinite;margin-bottom:10px;box-shadow:0 0 40px rgba(245,166,35,.25)}
+.ld-steps{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.ld-step{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--text-muted);font-family:'DM Mono',monospace;opacity:0;animation:fadeUp .5s ease forwards}
+.result{display:flex;flex-direction:column;height:100%}
+.res-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--bg-2);flex-shrink:0;gap:10px}
+.res-info{flex:1;min-width:0}
+.res-info h3{font-family:'Syne',sans-serif;font-size:.93rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-info p{font-size:.73rem;color:var(--text-dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.tab-btn{display:flex;align-items:center;gap:5px;background:var(--bg-3);border:1px solid var(--border);border-radius:7px;color:var(--text-dim);font-size:.74rem;padding:5px 10px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.tab-btn.on{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.dl-btn{display:flex;align-items:center;gap:5px;background:var(--accent);border:none;border-radius:7px;color:#0a0a0f;font-size:.74rem;font-weight:600;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.dl-btn:hover{background:#fbb93e}
+iframe.preview{width:100%;flex:1;border:none;display:block}
+.code-view{flex:1;overflow-y:auto;font-family:'DM Mono',monospace;font-size:.7rem;line-height:1.7;color:#a8b4c8;padding:14px;white-space:pre-wrap;word-break:break-all}
+.tags-bar{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:7px 14px;border-top:1px solid var(--border);background:var(--bg-2);flex-shrink:0;font-size:.7rem;color:var(--text-muted)}
+.tag{background:var(--bg-3);border:1px solid var(--border);border-radius:999px;color:var(--text-dim);padding:2px 8px;font-size:.65rem;font-family:'DM Mono',monospace}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.spin-ico{animation:spin 1s linear infinite;display:inline-block}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo"><div class="logo-icon">✦</div>SiteForge <span style="color:var(--accent)">AI</span></div>
+  <div class="badge">✓ 100% Free — Gemini 2.0 Flash</div>
+</header>
+
+<div class="setup-banner" id="setupBanner">
+  <span>🔑 <strong>Step 1:</strong> Get a free API key (no credit card) at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> &nbsp;→&nbsp; <strong>Step 2:</strong> Paste it here:</span>
+  <div class="api-row">
+    <input class="api-inp" id="apiKeyInp" type="password" placeholder="AIza…your key here"/>
+    <button class="api-save" onclick="saveKey()">Save & Start ✓</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="left">
+    <div>
+      <div class="lbl">Describe your website</div>
+      <textarea id="prompt" rows="5" placeholder="e.g. Portfolio website for a freelance travel photographer…"></textarea>
+      <div class="ex-chips" id="examples"></div>
+    </div>
+    <div>
+      <div class="lbl">Design style</div>
+      <div class="opt-grid" id="styles"></div>
+    </div>
+    <div>
+      <div class="lbl">Color scheme</div>
+      <div class="col-grid" id="colors"></div>
+    </div>
+    <button class="gen-btn" id="genBtn" onclick="generate()">✦ Generate Website</button>
+    <div id="errBox" style="display:none" class="err"></div>
+    <div class="ref-sec" id="refinePanel" style="display:none">
+      <div class="lbl">Refine your website</div>
+      <textarea id="refineInput" rows="3" placeholder="e.g. Add dark hero, include testimonials section…"></textarea>
+      <button class="ref-btn" id="refBtn" onclick="refine()">↺ Apply Refinement</button>
+    </div>
+  </div>
+
+  <div class="right" id="right">
+    <div class="state">
+      <div class="state-icon">✦</div>
+      <h2>Your website will appear here</h2>
+      <p>Paste your free Gemini key above, describe your site, then click <strong>Generate Website</strong></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const EXAMPLES=["Portfolio website for a freelance photographer specializing in travel photography","E-commerce site for a handmade jewelry brand called 'Lunar Crafts'","Restaurant landing page for an Italian fine dining restaurant 'La Bella'","SaaS landing page for a project management tool called 'FlowDesk'","Personal blog for a software developer writing about AI and productivity"];
+const STYLES=[{id:"modern",l:"Modern & Clean"},{id:"bold",l:"Bold & Vibrant"},{id:"minimal",l:"Minimalist"},{id:"luxury",l:"Luxury & Elegant"},{id:"playful",l:"Playful & Fun"},{id:"corporate",l:"Corporate"}];
+const COLORS=[{id:"blue",l:"Ocean Blue",h:"#2563eb"},{id:"purple",l:"Royal Purple",h:"#7c3aed"},{id:"green",l:"Forest Green",h:"#059669"},{id:"orange",l:"Sunset Orange",h:"#ea580c"},{id:"rose",l:"Rose Pink",h:"#e11d48"},{id:"dark",l:"Dark Mode",h:"#1e293b"}];
+let style="modern",color="blue",website=null,tab="preview";
+let apiKey=localStorage.getItem("sfai_gkey")||"";
+if(apiKey) document.getElementById("setupBanner").classList.add("hidden");
+
+document.getElementById("examples").innerHTML=EXAMPLES.slice(0,3).map(e=>`<button class="ex-chip" onclick="document.getElementById('prompt').value='${e.replace(/'/g,"\\'")}'">${e.slice(0,52)}…</button>`).join("");
+document.getElementById("styles").innerHTML=STYLES.map(s=>`<button class="opt-btn${s.id===style?" on":""}" id="s_${s.id}" onclick="setSt('${s.id}')">${s.l}</button>`).join("");
+document.getElementById("colors").innerHTML=COLORS.map(c=>`<button class="col-btn${c.id===color?" on":""}" id="c_${c.id}" onclick="setCol('${c.id}')"><span class="swatch" style="background:${c.h}"></span>${c.l}${c.id===color?'<span class="chk">✓</span>':""}</button>`).join("");
+
+function saveKey(){const k=document.getElementById("apiKeyInp").value.trim();if(!k)return;apiKey=k;localStorage.setItem("sfai_gkey",k);document.getElementById("setupBanner").classList.add("hidden");}
+function setSt(id){document.querySelectorAll(".opt-btn").forEach(b=>b.classList.remove("on"));document.getElementById("s_"+id)?.classList.add("on");style=id;}
+function setCol(id){document.querySelectorAll(".col-btn").forEach(b=>{b.classList.remove("on");b.innerHTML=b.innerHTML.replace('<span class="chk">✓</span>',"");});const b=document.getElementById("c_"+id);if(b){b.classList.add("on");b.innerHTML+='<span class="chk">✓</span>';}color=id;}
+
+const SYS=`You are an expert web developer. Generate complete, beautiful, production-ready websites.
+Return ONLY a valid JSON object:
+{"html":"FULL <!DOCTYPE html> document","css":"/* styles */","js":"// script","title":"Title","description":"Short description","components":["Nav","Hero","etc"]}
+The html field must be a COMPLETE standalone HTML document with all Google Fonts, CSS, and JS embedded. Make it visually stunning, fully responsive, with animations and realistic content.`;
+
+async function callGemini(msg){
+  if(!apiKey)throw new Error("No API key! Click the banner above and paste your free key from aistudio.google.com/apikey");
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system_instruction:{parts:[{text:SYS}]},contents:[{role:"user",parts:[{text:msg}]}],generationConfig:{maxOutputTokens:8192,temperature:0.7}})});
+  const d=await r.json();
+  if(d.error)throw new Error(d.error.message);
+  return d.candidates?.[0]?.content?.parts?.[0]?.text||"";
+}
+function parse(t){const m=t.match(/```json\n?([\s\S]*?)\n?```/)||t.match(/```\n?([\s\S]*?)\n?```/);return JSON.parse(m?m[1]:t.trim());}
+
+async function generate(){
+  const p=document.getElementById("prompt").value.trim();if(!p)return;
+  setErr(null);setBusy(true);
+  try{const text=await callGemini(`Create a website: "${p}"\nStyle: ${style}, Color: ${color}\nReturn ONLY the JSON.`);website=parse(text);website._p=p;showResult();document.getElementById("refinePanel").style.display="flex";}
+  catch(e){setErr(e.message);document.getElementById("right").innerHTML=`<div class="state"><div class="state-icon">✦</div><h2>Your website will appear here</h2><p>Check your API key and try again.</p></div>`;}
+  finally{setBusy(false);}
+}
+async function refine(){
+  const r=document.getElementById("refineInput").value.trim();if(!r||!website)return;
+  const rb=document.getElementById("refBtn");rb.disabled=true;rb.innerHTML='<span class="spin-ico">↺</span> Refining…';
+  try{const text=await callGemini(`Original: "${website._p}". Refinement: "${r}". Return updated JSON only.`);const w=parse(text);w._p=website._p;website=w;document.getElementById("refineInput").value="";showResult();}
+  catch(e){setErr(e.message);}
+  finally{rb.disabled=false;rb.innerHTML='↺ Apply Refinement';}
+}
+function setBusy(on){const b=document.getElementById("genBtn");b.disabled=on;b.innerHTML=on?'<span class="spin-ico">✦</span> Generating…':'✦ Generate Website';if(on)document.getElementById("right").innerHTML=`<div class="state"><div class="orb"></div><h2>Crafting your website…</h2><p>Gemini 2.0 is generating layout, content &amp; styles</p><div class="ld-steps">${["Processing prompt","Designing layout","Writing content","Styling components"].map((s,i)=>`<div class="ld-step" style="animation-delay:${i*.4}s">⟳ ${s}</div>`).join("")}</div></div>`;}
+function setErr(msg){const e=document.getElementById("errBox");if(!e)return;e.style.display=msg?"block":"none";if(msg)e.textContent="⚠ "+msg;}
+function showResult(){tab="preview";document.getElementById("right").innerHTML=`<div class="result"><div class="res-hdr"><div class="res-info"><h3>${website.title||"Generated Site"}</h3><p>${website.description||""}</p></div><div class="res-actions"><button class="tab-btn on" id="tPrev" onclick="sw('preview')">👁 Preview</button><button class="tab-btn" id="tCode" onclick="sw('code')">⟨/⟩ Code</button><button class="dl-btn" onclick="dl()">↓ Download</button></div></div><div id="tc" style="flex:1;overflow:hidden;display:flex;flex-direction:column"></div>${website.components?.length?`<div class="tags-bar"><span>Components:</span>${website.components.map(c=>`<span class="tag">${c}</span>`).join("")}</div>`:""}</div>`;renderTab();}
+function sw(t){tab=t;document.getElementById("tPrev").className="tab-btn"+(t==="preview"?" on":"");document.getElementById("tCode").className="tab-btn"+(t==="code"?" on":"");renderTab();}
+function renderTab(){const c=document.getElementById("tc");if(!c)return;const h=website.html||"";if(tab==="preview")c.innerHTML=`<iframe class="preview" sandbox="allow-scripts allow-same-origin" srcdoc="${h.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}"></iframe>`;else c.innerHTML=`<div class="code-view">${h.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>`;}
+function dl(){const b=new Blob([website.html||""],{type:"text/html"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=(website.title||"website").replace(/\s+/g,"-").toLowerCase()+".html";a.click();}
+</script>
+</body>
+</html>
